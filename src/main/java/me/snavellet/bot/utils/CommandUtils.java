@@ -95,9 +95,6 @@ public class CommandUtils {
 		String commandsDirectory = "./src/main/java/me/snavellet/bot/commands/"
 				+ category;
 
-//		String commandsDirectory = "./commands/"
-//				+ category;
-
 		Optional<String[]> commandFilesDirectory =
 				Optional.ofNullable(new File(commandsDirectory).list());
 
@@ -128,10 +125,6 @@ public class CommandUtils {
 	private static @NotNull List<String> getCommandsCategories() {
 
 		String categoriesDirectory = "./src/main/java/me/snavellet/bot/commands";
-
-//		String categoriesDirectory = "./commands";
-
-		System.out.println(Paths.get("").toAbsolutePath().toString());
 
 		List<String> categories = Arrays.asList(new File(categoriesDirectory).list());
 
