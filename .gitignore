@@ -1,0 +1,5 @@
+.gradle
+.idea
+build
+src/main/resources/config/config.properties
+src/main/resources/hibernate/hibernate.cfg.xml
