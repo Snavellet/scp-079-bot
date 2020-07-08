@@ -8,16 +8,16 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 public class CommandUtils {
+
+	public static final String ARGUMENTS_MISSING = "please provide an argument!";
 
 	public static @NotNull CompletableFuture<Message> reply(@NotNull String userId,
 	                                                        @NotNull MessageChannel channel,
@@ -38,12 +38,10 @@ public class CommandUtils {
 		User author = event.getAuthor();
 		MessageChannel channel = event.getChannel();
 
-		List<String> tempArgs = getArgs(event.getArgs());
-
-		Optional<List<String>> args = Optional.ofNullable(tempArgs);
+		Optional<List<String>> args = getArgs(event.getArgs());
 
 		EmbedBuilder embedBuilder = new EmbedBuilder()
-				.setAuthor(author.getName(), null, author.getEffectiveAvatarUrl())
+				.setAuthor(author.getAsTag(), null, author.getEffectiveAvatarUrl())
 				.setColor(color);
 
 		if(args.isEmpty()) {
@@ -133,11 +131,15 @@ public class CommandUtils {
 		return categories;
 	}
 
-	public static @Nullable List<String> getArgs(@NotNull String content) {
-		if(content.equals(""))
-			return null;
+	public static @NotNull Optional<List<String>> getArgs(@NotNull String content) {
+		List<String> result;
 
-		return Arrays.asList(content.split("\\s+"));
+		if(content.equals(""))
+			result = null;
+		else
+			result = Arrays.asList(content.split("\\s+"));
+
+		return Optional.ofNullable(result);
 	}
 
 	@SafeVarargs

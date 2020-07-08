@@ -3,6 +3,7 @@ package me.snavellet.bot.utils;
 import com.google.gson.Gson;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 
@@ -28,8 +29,8 @@ public class HttpUtils<T> {
 		checkHeaders(headers);
 	}
 
-	private void checkHeaders(@NotNull Headers headers) {
-		if(headers.size() >= 1) {
+	private void checkHeaders(@Nullable Headers headers) {
+		if(headers != null && headers.size() >= 1) {
 			this.headers = headers;
 			this.request = new Request.Builder().headers(headers).url(URL).build();
 		} else {
@@ -37,14 +38,14 @@ public class HttpUtils<T> {
 		}
 	}
 
-	private @NotNull Request checkHeadersPost(@NotNull Headers headers,
+	private @NotNull Request checkHeadersPost(@Nullable Headers headers,
 	                                          @NotNull String json) {
 
 		RequestBody requestBody = RequestBody.create(JSON, json);
 
-		Request request = null;
+		Request request;
 
-		if(headers.size() >= 1) {
+		if(headers != null && headers.size() >= 1) {
 			request = this.request
 					.newBuilder()
 					.headers(headers)

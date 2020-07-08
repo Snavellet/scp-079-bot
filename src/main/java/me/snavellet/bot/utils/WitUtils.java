@@ -2,6 +2,7 @@ package me.snavellet.bot.utils;
 
 import me.snavellet.bot.entities.http.tech.ai.wit.EntitiesWit;
 import me.snavellet.bot.entities.http.tech.ai.wit.MessageWit;
+import me.snavellet.bot.utils.enums.Api;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -50,7 +51,7 @@ public class WitUtils {
 
 
 		HttpUtils<MessageWit> http =
-				new HttpUtils<>("https://api.wit.ai/message?q=" + messageContent,
+				new HttpUtils<>(Api.WIT_MESSAGE.getValue() + messageContent,
 						headers, MessageWit.class);
 
 		try {

@@ -2,7 +2,7 @@ package me.snavellet.bot.commands.fun;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import me.snavellet.bot.entities.http.animals.randomDog.RandomDog;
+import me.snavellet.bot.entities.http.animals.theCatApi.RandomCat;
 import me.snavellet.bot.utils.CommandUtils;
 import me.snavellet.bot.utils.HttpUtils;
 import me.snavellet.bot.utils.enums.Api;
@@ -17,52 +17,52 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.io.IOException;
 
-public class Dog extends Command {
+public class Cat extends Command {
 
-	public Dog() {
-		this.name = "dog";
-		this.help = "Gets a random dog image.";
-		this.aliases = new String[]{"doggo"};
+	public Cat() {
+		this.name = "cat";
+		this.aliases = new String[]{"catpic"};
 		this.cooldown = 3;
+		this.help = "Gets a random cat image.";
 	}
 
 	@Override
-	protected void execute(@NotNull CommandEvent event) {
+	protected void execute(CommandEvent event) {
 
 		Color color = CommandUtils.getRandomItem(
-				Color.GRAY,
-				Color.YELLOW,
 				Color.CYAN,
-				Color.pink
+				Color.BLUE,
+				Color.YELLOW,
+				Color.RED,
+				Color.MAGENTA
 		);
 
 		User author = event.getAuthor();
 
-		HttpUtils<RandomDog> http = new HttpUtils<>(Api.DOG.getValue(),
-				RandomDog.class);
+		HttpUtils<RandomCat[]> http = new HttpUtils<>(Api.CAT.getValue(),
+				RandomCat[].class);
 
 		http.asynchronousGet(new Callback() {
 			@Override
 			public void onFailure(@NotNull Call call, @NotNull IOException e) {
-				CommandUtils.reply(author.getId(), event.getChannel(), Api.ERROR.getValue());
+				CommandUtils.reply(author.getId(), event.getChannel(),
+						Api.ERROR.getValue());
 			}
 
 			@Override
 			public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
-				RandomDog dog = http.fromJson(response.body().string());
+				RandomCat randomCat =
+						http.fromJson(response.body().string())[0];
 
 				MessageEmbed embed = new EmbedBuilder()
-						.setImage(dog.getUrl())
+						.setTitle("Here's a sentient cat made by me!")
 						.setColor(color)
 						.setAuthor(author.getAsTag(), null, author.getEffectiveAvatarUrl())
-						.setFooter("Have this sentient dog made by me!")
+						.setImage(randomCat.getUrl())
 						.build();
 
 				event.getChannel().sendMessage(embed).submit();
 			}
 		});
-
-
 	}
 }

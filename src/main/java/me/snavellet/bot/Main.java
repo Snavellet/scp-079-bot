@@ -2,8 +2,12 @@ package me.snavellet.bot;
 
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
+import me.snavellet.bot.commands.fun.Cat;
 import me.snavellet.bot.commands.fun.Dog;
+import me.snavellet.bot.commands.fun.Meme;
+import me.snavellet.bot.commands.knowledge.CatFact;
 import me.snavellet.bot.commands.utils.Avatar;
+import me.snavellet.bot.commands.utils.UrlShorten;
 import me.snavellet.bot.listeners.CommandListener;
 import me.snavellet.bot.listeners.MessageListener;
 import me.snavellet.bot.listeners.ReadyListener;
@@ -34,10 +38,16 @@ public class Main {
 				.setListener(new CommandListener())
 				.addCommands(
 						// Fun
+						new Cat(),
 						new Dog(),
+						new Meme(),
+
+						// Knowledge
+						new CatFact(),
 
 						// Utilities
-						new Avatar()
+						new Avatar(),
+						new UrlShorten()
 				);
 
 		CommandClient client = commandClientBuilder.build();
