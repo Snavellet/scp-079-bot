@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 
+@SuppressWarnings("unused")
 public class HttpUtils<T> {
 
 	private static final Gson gson = new Gson();
@@ -14,10 +15,10 @@ public class HttpUtils<T> {
 	private static final MediaType JSON = MediaType.get("application/json; charset=utf8");
 	private final Class<T> classValue;
 	private String URL;
-	private Headers headers;
+	private @Nullable Headers headers;
 	private Request request;
 
-	public HttpUtils(String URL, Class<T> classValue) {
+	public HttpUtils(@NotNull String URL, Class<T> classValue) {
 		this.URL = URL;
 		this.request = new Request.Builder().url(URL).build();
 		this.classValue = classValue;
@@ -38,8 +39,8 @@ public class HttpUtils<T> {
 		}
 	}
 
-	private @NotNull Request checkHeadersPost(@Nullable Headers headers,
-	                                          @NotNull String json) {
+	private Request checkHeadersPost(@Nullable Headers headers,
+	                                 @NotNull String json) {
 
 		RequestBody requestBody = RequestBody.create(JSON, json);
 
@@ -65,7 +66,7 @@ public class HttpUtils<T> {
 		return URL;
 	}
 
-	public void setURL(String URL) {
+	public void setURL(@NotNull String URL) {
 		this.URL = URL;
 		this.request = new Request.Builder().url(URL).build();
 	}
@@ -73,25 +74,27 @@ public class HttpUtils<T> {
 	public T get() throws IOException {
 
 		Response response = client.newCall(request).execute();
+		assert response.body() != null;
 		String responseBody = response.body().string();
 
 		return this.fromJson(responseBody);
 	}
 
-	public void asynchronousGet(Callback callback) {
+	public void asynchronousGet(@NotNull Callback callback) {
 
 		client.newCall(request).enqueue(callback);
 	}
 
-	public T post(String json) throws IOException {
+	public T post(@NotNull String json) throws IOException {
 
 		Request request = checkHeadersPost(this.headers, json);
 
 		Response response = client.newCall(request).execute();
+		assert response.body() != null;
 		return this.fromJson(response.body().string());
 	}
 
-	public void asynchronousPost(String json, Callback callback) {
+	public void asynchronousPost(@NotNull String json, @NotNull Callback callback) {
 
 		Request request = checkHeadersPost(this.headers, json);
 

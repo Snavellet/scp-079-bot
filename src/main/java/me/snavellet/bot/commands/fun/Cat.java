@@ -27,7 +27,9 @@ public class Cat extends Command {
 	}
 
 	@Override
-	protected void execute(CommandEvent event) {
+	protected void execute(@NotNull CommandEvent event) {
+
+		CommandUtils commandUtils = new CommandUtils(event);
 
 		Color color = CommandUtils.getRandomItem(
 				Color.CYAN,
@@ -45,20 +47,20 @@ public class Cat extends Command {
 		http.asynchronousGet(new Callback() {
 			@Override
 			public void onFailure(@NotNull Call call, @NotNull IOException e) {
-				CommandUtils.reply(author.getId(), event.getChannel(),
-						Api.ERROR.getValue());
+				commandUtils.reply(Api.ERROR.getValue());
 			}
 
 			@Override
 			public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+				assert response.body() != null;
 				RandomCat randomCat =
 						http.fromJson(response.body().string())[0];
 
 				MessageEmbed embed = new EmbedBuilder()
-						.setTitle("Here's a sentient cat made by me!")
 						.setColor(color)
-						.setAuthor(author.getAsTag(), null, author.getEffectiveAvatarUrl())
+						.setAuthor(author.getName(), null, author.getEffectiveAvatarUrl())
 						.setImage(randomCat.getUrl())
+						.setFooter("Here's a sentient cat made by me!")
 						.build();
 
 				event.getChannel().sendMessage(embed).submit();

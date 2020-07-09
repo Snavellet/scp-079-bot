@@ -29,6 +29,8 @@ public class Dog extends Command {
 	@Override
 	protected void execute(@NotNull CommandEvent event) {
 
+		CommandUtils commandUtils = new CommandUtils(event);
+
 		Color color = CommandUtils.getRandomItem(
 				Color.GRAY,
 				Color.YELLOW,
@@ -44,18 +46,19 @@ public class Dog extends Command {
 		http.asynchronousGet(new Callback() {
 			@Override
 			public void onFailure(@NotNull Call call, @NotNull IOException e) {
-				CommandUtils.reply(author.getId(), event.getChannel(), Api.ERROR.getValue());
+				commandUtils.reply(Api.ERROR.getValue());
 			}
 
 			@Override
 			public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
 
+				assert response.body() != null;
 				RandomDog dog = http.fromJson(response.body().string());
 
 				MessageEmbed embed = new EmbedBuilder()
 						.setImage(dog.getUrl())
 						.setColor(color)
-						.setAuthor(author.getAsTag(), null, author.getEffectiveAvatarUrl())
+						.setAuthor(author.getName(), null, author.getEffectiveAvatarUrl())
 						.setFooter("Have this sentient dog made by me!")
 						.build();
 

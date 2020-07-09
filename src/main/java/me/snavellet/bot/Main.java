@@ -5,13 +5,14 @@ import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import me.snavellet.bot.commands.fun.Cat;
 import me.snavellet.bot.commands.fun.Dog;
 import me.snavellet.bot.commands.fun.Meme;
+import me.snavellet.bot.commands.general.Help;
 import me.snavellet.bot.commands.knowledge.CatFact;
 import me.snavellet.bot.commands.utils.Avatar;
+import me.snavellet.bot.commands.utils.Purge;
 import me.snavellet.bot.commands.utils.UrlShorten;
 import me.snavellet.bot.listeners.CommandListener;
 import me.snavellet.bot.listeners.MessageListener;
 import me.snavellet.bot.listeners.ReadyListener;
-import me.snavellet.bot.utils.CommandUtils;
 import me.snavellet.bot.utils.ConfigUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -34,7 +35,7 @@ public class Main {
 				.setActivity(Activity.of(Activity.ActivityType.WATCHING,
 						"this server"))
 				.setOwnerId(configUtils.getOwnerId())
-				.setHelpConsumer(CommandUtils::helpCommand)
+				.useHelpBuilder(false)
 				.setListener(new CommandListener())
 				.addCommands(
 						// Fun
@@ -47,7 +48,11 @@ public class Main {
 
 						// Utilities
 						new Avatar(),
-						new UrlShorten()
+						new UrlShorten(),
+						new Purge(),
+
+						//General
+						new Help()
 				);
 
 		CommandClient client = commandClientBuilder.build();

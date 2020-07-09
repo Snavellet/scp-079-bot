@@ -2,6 +2,7 @@ package me.snavellet.bot.entities.hibernate;
 
 import javax.persistence.*;
 
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "skids")
 public class Skid {
@@ -17,7 +18,8 @@ public class Skid {
 	@Column(name = "user_id")
 	private String userId;
 
-	public Skid() {	}
+	public Skid() {
+	}
 
 	public Skid(String guildId, String userId) {
 		this.guildId = guildId;

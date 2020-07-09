@@ -2,6 +2,7 @@ package me.snavellet.bot.entities.http.tech.ai.wit;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class EntityWit {
 
 	private final String id;

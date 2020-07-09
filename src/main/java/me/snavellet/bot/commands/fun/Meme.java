@@ -27,7 +27,9 @@ public class Meme extends Command {
 	}
 
 	@Override
-	protected void execute(CommandEvent event) {
+	protected void execute(@NotNull CommandEvent event) {
+
+		CommandUtils commandUtils = new CommandUtils(event);
 
 		Color color = CommandUtils.getRandomItem(
 				Color.PINK,
@@ -44,17 +46,17 @@ public class Meme extends Command {
 		http.asynchronousGet(new Callback() {
 			@Override
 			public void onFailure(@NotNull Call call, @NotNull IOException e) {
-				CommandUtils.reply(event.getAuthor().getId(), event.getChannel(),
-						Api.ERROR.getValue());
+				commandUtils.reply(Api.ERROR.getValue());
 			}
 
 			@Override
 			public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+				assert response.body() != null;
 				RandomMeme result = http.fromJson(response.body().string());
 				MessageEmbed embed = new EmbedBuilder()
 						.setTitle(result.getTitle(), result.getPostLink())
 						.setColor(color)
-						.setAuthor(author.getAsTag(), null, author.getEffectiveAvatarUrl())
+						.setAuthor(author.getName(), null, author.getEffectiveAvatarUrl())
 						.setImage(result.getUrl())
 						.build();
 

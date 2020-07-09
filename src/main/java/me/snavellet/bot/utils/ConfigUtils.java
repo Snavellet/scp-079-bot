@@ -1,5 +1,7 @@
 package me.snavellet.bot.utils;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -7,9 +9,9 @@ import java.util.Properties;
 public class ConfigUtils {
 
 	private static final Properties properties = new Properties();
-	private static final InputStream propertiesFile =
+	private static final @Nullable InputStream propertiesFile =
 			ConfigUtils.class.getClassLoader().getResourceAsStream(
-			"config/config.properties");
+					"config/config.properties");
 
 	public ConfigUtils() throws IOException {
 		properties.load(propertiesFile);

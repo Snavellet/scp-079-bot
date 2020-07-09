@@ -1,5 +1,6 @@
 package me.snavellet.bot.entities.http.tech.ai.wit;
 
+@SuppressWarnings("unused")
 public class IntentWit {
 
 	private final String id;

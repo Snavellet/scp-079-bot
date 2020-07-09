@@ -23,7 +23,9 @@ public class CatFact extends Command {
 	}
 
 	@Override
-	protected void execute(CommandEvent event) {
+	protected void execute(@NotNull CommandEvent event) {
+
+		CommandUtils commandUtils = new CommandUtils(event);
 
 		HttpUtils<RandomCatFact> http = new HttpUtils<>(Api.CAT_FACT.getValue(),
 				RandomCatFact.class);
@@ -31,13 +33,13 @@ public class CatFact extends Command {
 		http.asynchronousGet(new Callback() {
 			@Override
 			public void onFailure(@NotNull Call call, @NotNull IOException e) {
-				CommandUtils.reply(event.getAuthor().getId(), event.getChannel(),
-						Api.ERROR.getValue());
+				commandUtils.reply(Api.ERROR.getValue());
 			}
 
 			@Override
 			public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
 
+				assert response.body() != null;
 				RandomCatFact result = http.fromJson(response.body().string());
 
 				event.getChannel().sendMessage(result.getText()).submit();

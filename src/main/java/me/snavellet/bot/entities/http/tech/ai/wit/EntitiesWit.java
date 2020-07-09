@@ -12,6 +12,7 @@ public class EntitiesWit {
 	@SerializedName("sentiment:negative")
 	private final List<EntityWit> negative;
 
+	@SuppressWarnings("unused")
 	public EntitiesWit(List<EntityWit> positive, List<EntityWit> negative) {
 		this.positive = positive;
 		this.negative = negative;
