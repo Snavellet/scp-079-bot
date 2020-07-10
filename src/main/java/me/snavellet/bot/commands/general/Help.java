@@ -71,10 +71,14 @@ public class Help extends Command {
 					String aliases = originalAliases.size() >= 1 ? " | " + String.join(
 							", ",
 							Arrays.asList(command.getAliases())) : "";
-					String arguments = command.getArguments().equals("") ? "" :
+
+					Optional<String> optArguments =
+							Optional.ofNullable(command.getArguments());
+
+					String arguments = optArguments.isEmpty() ? "" :
 							"\n\nUsage: " + event
 									.getClient()
-									.getPrefix() + command.getName() + " " + command.getArguments();
+									.getPrefix() + command.getName() + " " + optArguments.get();
 
 					embedBuilder.addField(
 							commandClient.getPrefix() +
