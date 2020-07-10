@@ -3,32 +3,41 @@ package me.snavellet.bot.utils;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
 import java.io.File;
+import java.util.List;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 public class CommandUtils {
 
 	public static final String ARGUMENTS_MISSING = "please provide an argument!";
+	public static final String REASON_MISSING = "please provide a reason!";
+	public static final String ARGUMENTS_MODERATION = "(name | mention | id)... " +
+			"\"[reason]\", must be in quotes.";
+	public static final int DEFAULT_COOLDOWN = 2;
 
 	private final User author;
 	private final MessageChannel channel;
+	private final Guild guild;
 	private final String content;
-//	private final @NotNull CommandEvent event;
+	private final @NotNull CommandEvent event;
 
 	public CommandUtils(@NotNull CommandEvent event) {
 		this.author = event.getAuthor();
 		this.channel = event.getChannel();
+		this.guild = event.getGuild();
 		this.content = event.getArgs();
-//		this.event = event;
+		this.event = event;
 	}
 
 	public static List<String> getCommandsCategories() {
@@ -103,11 +112,81 @@ public class CommandUtils {
 	public Optional<List<String>> getArgs() {
 		@Nullable List<String> result;
 
-		if(this.content.equals(""))
+		if(this.content.equals("")) {
 			result = null;
-		else
+		} else if(Pattern.matches("\\w+\\S+", this.content)) {
+			result = Collections.singletonList(this.content);
+		} else {
 			result = Arrays.asList(this.content.split("\\s+"));
+		}
 
 		return Optional.ofNullable(result);
+	}
+
+	public Optional<List<String>> getMentionsAndIdsAndEffectiveName() {
+		Optional<List<String>> arguments = this.getArgs();
+		if(arguments.isEmpty())
+			return Optional.empty();
+
+		Color color = getRandomItem(
+				Color.BLUE,
+				Color.GRAY,
+				Color.LIGHT_GRAY,
+				Color.MAGENTA,
+				Color.GREEN
+		);
+
+		List<String> args = arguments.get();
+		List<String> ids = new ArrayList<>();
+
+		args.forEach(arg -> {
+			List<Member> membersByEffectiveName = this.guild.getMembers().parallelStream()
+			                                                .filter(member -> member
+					                                                .getEffectiveName()
+					                                                .toLowerCase()
+					                                                .contains(arg.toLowerCase()))
+			                                                .collect(Collectors.toList());
+			Optional<Member> membersByTag;
+			Matcher matchedIds = Pattern.compile("\\d{18}").matcher(arg);
+
+			try {
+				membersByTag = Optional.ofNullable(this.guild.getMemberByTag(arg));
+			} catch(IllegalArgumentException illegalArgumentException) {
+				membersByTag = Optional.empty();
+			}
+
+			if(membersByEffectiveName.size() == 1) {
+				ids.add(membersByEffectiveName.get(0).getId());
+			} else if(membersByEffectiveName.size() > 1) {
+				EmbedBuilder multipleNames = new EmbedBuilder()
+						.setColor(color)
+						.setTitle("Search for: " + arg + "\nFound multiple results")
+						.setThumbnail(this.guild.getIconUrl());
+				membersByEffectiveName.forEach(member -> multipleNames.appendDescription(member
+						.getUser()
+						.getName() + "\n"));
+				this.channel.sendMessage(multipleNames.build()).submit();
+			} else if(membersByTag.isPresent()) {
+				ids.add(membersByTag.get().getId());
+			} else if(matchedIds.find()) {
+				ids.add(matchedIds.group(0));
+			}
+		});
+
+
+		return Optional.of(ids);
+	}
+
+	public Optional<Member> memberExistsById(String id) {
+		return Optional.ofNullable(this.event.getGuild().getMemberById(id));
+	}
+
+	public Optional<String> getReason() {
+		Matcher matcher = Pattern.compile("\"(.+)\"").matcher(this.content);
+
+		if(!matcher.find())
+			return Optional.empty();
+
+		return Optional.of(matcher.group(1));
 	}
 }

@@ -11,18 +11,22 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Optional;
 
 public class Avatar extends Command {
 
 	public Avatar() {
 		this.name = "avatar";
 		this.aliases = new String[]{"av", "pfp"};
-		this.cooldown = 3;
+		this.cooldown = CommandUtils.DEFAULT_COOLDOWN;
 		this.help = "Gets the avatar of a mentioned member.";
+		this.arguments = "(name | mention | id)";
 	}
 
 	@Override
 	protected void execute(@NotNull CommandEvent event) {
+
+		CommandUtils commandUtils = new CommandUtils(event);
 
 		User author = event.getAuthor();
 
@@ -39,25 +43,40 @@ public class Avatar extends Command {
 
 		String avatarSizeQuery = "?size=1024";
 
-		List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
+		Optional<List<String>> ids = commandUtils.getMentionsAndIdsAndEffectiveName();
 
 		MessageEmbed embed;
 
-		if(!(mentionedMembers.size() >= 1)) {
-			embed = embedBuilder
-					.setTitle(author.getAsTag())
-					.setImage(author.getEffectiveAvatarUrl() + avatarSizeQuery)
-					.build();
+		if(ids.isEmpty()) {
+			commandUtils.reply(CommandUtils.ARGUMENTS_MISSING);
 		} else {
-			User user = mentionedMembers.get(0).getUser();
+			Optional<List<String>> args = commandUtils.getArgs();
 
-			embed = embedBuilder
-					.setTitle(user.getAsTag())
-					.setImage(user.getEffectiveAvatarUrl() + avatarSizeQuery)
-					.build();
+			if(args.isPresent() && args.get().get(0).equalsIgnoreCase("me")) {
+				embed = embedBuilder
+						.setTitle(author.getAsTag())
+						.setImage(author.getEffectiveAvatarUrl() + avatarSizeQuery)
+						.build();
+			} else {
+				Optional<Member> member =
+						Optional.ofNullable(event
+								.getGuild()
+								.getMemberById(ids.get().get(0)));
+
+				if(member.isEmpty()) {
+					commandUtils.reply("that user doesn't exist anymore!");
+					return;
+				}
+
+				User user = member.get().getUser();
+
+				embed = embedBuilder
+						.setTitle(user.getAsTag())
+						.setImage(user.getEffectiveAvatarUrl() + avatarSizeQuery)
+						.build();
+
+			}
+			event.reply(embed);
 		}
-
-		event.reply(embed);
-
 	}
 }

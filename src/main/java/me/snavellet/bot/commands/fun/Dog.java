@@ -23,7 +23,7 @@ public class Dog extends Command {
 		this.name = "dog";
 		this.help = "Gets a random dog image.";
 		this.aliases = new String[]{"doggo"};
-		this.cooldown = 3;
+		this.cooldown = CommandUtils.DEFAULT_COOLDOWN;
 	}
 
 	@Override

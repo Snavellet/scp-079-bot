@@ -20,8 +20,9 @@ public class UrlShorten extends Command {
 	public UrlShorten() {
 		this.name = "urlshorten";
 		this.aliases = new String[]{"shortenurl"};
-		this.cooldown = 3;
+		this.cooldown = CommandUtils.DEFAULT_COOLDOWN;
 		this.help = "Shortens any url given.";
+		this.arguments = "[link to shorten]";
 	}
 
 	@Override

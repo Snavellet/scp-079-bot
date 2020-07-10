@@ -19,7 +19,7 @@ public class CatFact extends Command {
 		this.name = "catfact";
 		this.aliases = new String[]{"catf"};
 		this.help = "Gets you a random cat fact.";
-		this.cooldown = 3;
+		this.cooldown = CommandUtils.DEFAULT_COOLDOWN;
 	}
 
 	@Override

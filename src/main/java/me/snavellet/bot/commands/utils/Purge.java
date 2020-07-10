@@ -18,7 +18,8 @@ public class Purge extends Command {
 		this.aliases = new String[]{"clean"};
 		this.help = "Deletes a number of messages in the channel it's executed in.";
 		this.userPermissions = new Permission[]{Permission.MESSAGE_MANAGE};
-		this.cooldown = 2;
+		this.cooldown = CommandUtils.DEFAULT_COOLDOWN;
+		this.arguments = "[amount to purge, max 100 and min 1]";
 	}
 
 	@Override

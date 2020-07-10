@@ -17,7 +17,7 @@ public class MessageListener extends ListenerAdapter {
 
 	@Override
 	public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
-		if(!event.isFromGuild()) return;
+		if(!event.isFromGuild() || event.isWebhookMessage()) return;
 
 		User author = event.getAuthor();
 		@Nullable Member member = event.getMember();

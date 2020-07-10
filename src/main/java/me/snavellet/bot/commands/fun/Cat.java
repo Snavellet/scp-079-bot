@@ -22,7 +22,7 @@ public class Cat extends Command {
 	public Cat() {
 		this.name = "cat";
 		this.aliases = new String[]{"catpic"};
-		this.cooldown = 3;
+		this.cooldown = CommandUtils.DEFAULT_COOLDOWN;
 		this.help = "Gets a random cat image.";
 	}
 

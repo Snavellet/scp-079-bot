@@ -27,4 +27,4 @@
 
     </session-factory>
 </hibernate-configuration>
-<!-- Copy this file and paste it in the current folder; name me to hibernate.cfg.xml -->
+<!-- Copy this file and paste it in the current folder; name me to hibernate.cfg.xml and fill details. -->

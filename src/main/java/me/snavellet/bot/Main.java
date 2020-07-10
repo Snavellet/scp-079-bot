@@ -4,13 +4,15 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import me.snavellet.bot.commands.fun.Cat;
 import me.snavellet.bot.commands.fun.Dog;
+import me.snavellet.bot.commands.fun.Flip;
 import me.snavellet.bot.commands.fun.Meme;
 import me.snavellet.bot.commands.general.Help;
 import me.snavellet.bot.commands.knowledge.CatFact;
+import me.snavellet.bot.commands.moderation.Ban;
+import me.snavellet.bot.commands.moderation.Kick;
 import me.snavellet.bot.commands.utils.Avatar;
 import me.snavellet.bot.commands.utils.Purge;
 import me.snavellet.bot.commands.utils.UrlShorten;
-import me.snavellet.bot.listeners.CommandListener;
 import me.snavellet.bot.listeners.MessageListener;
 import me.snavellet.bot.listeners.ReadyListener;
 import me.snavellet.bot.utils.ConfigUtils;
@@ -36,12 +38,12 @@ public class Main {
 						"this server"))
 				.setOwnerId(configUtils.getOwnerId())
 				.useHelpBuilder(false)
-				.setListener(new CommandListener())
 				.addCommands(
 						// Fun
 						new Cat(),
 						new Dog(),
 						new Meme(),
+						new Flip(),
 
 						// Knowledge
 						new CatFact(),
@@ -51,8 +53,12 @@ public class Main {
 						new UrlShorten(),
 						new Purge(),
 
-						//General
-						new Help()
+						// General
+						new Help(),
+
+						// Moderation
+						new Kick(),
+						new Ban()
 				);
 
 		CommandClient client = commandClientBuilder.build();

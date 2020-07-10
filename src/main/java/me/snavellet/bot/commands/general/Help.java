@@ -18,7 +18,7 @@ public class Help extends Command {
 	public Help() {
 		this.name = "help";
 		this.aliases = new String[]{"cmds", "cmd", "commands", "command"};
-		this.cooldown = 2;
+		this.cooldown = CommandUtils.DEFAULT_COOLDOWN;
 		this.help = "Displays categories that are full of commands or you can provide a" +
 				" category then" +
 				" it will list all the commands for the category.";
@@ -71,12 +71,16 @@ public class Help extends Command {
 					String aliases = originalAliases.size() >= 1 ? " | " + String.join(
 							", ",
 							Arrays.asList(command.getAliases())) : "";
+					String arguments = command.getArguments().equals("") ? "" :
+							"\n\nUsage: " + event
+									.getClient()
+									.getPrefix() + command.getName() + " " + command.getArguments();
 
 					embedBuilder.addField(
 							commandClient.getPrefix() +
 									command.getName().toLowerCase()
 									+ aliases,
-							command.getHelp(),
+							command.getHelp() + arguments,
 							false
 					);
 				});

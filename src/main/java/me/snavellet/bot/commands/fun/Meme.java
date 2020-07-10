@@ -22,7 +22,7 @@ public class Meme extends Command {
 	public Meme() {
 		this.name = "meme";
 		this.aliases = new String[]{"memes"};
-		this.cooldown = 3;
+		this.cooldown = CommandUtils.DEFAULT_COOLDOWN;
 		this.help = "Gets a random meme.";
 	}
 
