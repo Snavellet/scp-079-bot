@@ -145,6 +145,7 @@ public class CommandUtils {
 					                                                .getEffectiveName()
 					                                                .toLowerCase()
 					                                                .contains(arg.toLowerCase()))
+			                                                .limit(10)
 			                                                .collect(Collectors.toList());
 			Optional<Member> membersByTag;
 			Matcher matchedIds = Pattern.compile("\\d{18}").matcher(arg);
@@ -160,7 +161,8 @@ public class CommandUtils {
 			} else if(membersByEffectiveName.size() > 1) {
 				EmbedBuilder multipleNames = new EmbedBuilder()
 						.setColor(color)
-						.setTitle("Search for: " + arg + "\nFound multiple results")
+						.setTitle("Search for: " + arg + "\nFound multiple results (Max" +
+								" is 10)")
 						.setThumbnail(this.guild.getIconUrl());
 				membersByEffectiveName.forEach(member -> multipleNames.appendDescription(member
 						.getUser()

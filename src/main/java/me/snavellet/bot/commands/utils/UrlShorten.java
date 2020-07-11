@@ -5,7 +5,7 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import me.snavellet.bot.entities.http.utils.cleanUri.ShortenedUrlDetails;
 import me.snavellet.bot.utils.CommandUtils;
 import me.snavellet.bot.utils.HttpUtils;
-import me.snavellet.bot.utils.enums.Api;
+import me.snavellet.bot.utils.enums.API;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -33,7 +33,7 @@ public class UrlShorten extends Command {
 		Optional<List<String>> args = commandUtils.getArgs();
 
 		HttpUtils<ShortenedUrlDetails> http =
-				new HttpUtils<>(Api.URL_SHORTEN.getValue(), ShortenedUrlDetails.class);
+				new HttpUtils<>(API.URL_SHORTEN.getValue(), ShortenedUrlDetails.class);
 
 
 		if(args.isEmpty()) {
@@ -44,7 +44,7 @@ public class UrlShorten extends Command {
 			http.asynchronousPost(json, new Callback() {
 				@Override
 				public void onFailure(@NotNull Call call, @NotNull IOException e) {
-					commandUtils.reply(Api.ERROR.getValue());
+					commandUtils.reply(API.ERROR.getValue());
 				}
 
 				@Override

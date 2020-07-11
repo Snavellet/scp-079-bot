@@ -5,7 +5,7 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import me.snavellet.bot.entities.http.animals.catFact.RandomCatFact;
 import me.snavellet.bot.utils.CommandUtils;
 import me.snavellet.bot.utils.HttpUtils;
-import me.snavellet.bot.utils.enums.Api;
+import me.snavellet.bot.utils.enums.API;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -27,13 +27,13 @@ public class CatFact extends Command {
 
 		CommandUtils commandUtils = new CommandUtils(event);
 
-		HttpUtils<RandomCatFact> http = new HttpUtils<>(Api.CAT_FACT.getValue(),
+		HttpUtils<RandomCatFact> http = new HttpUtils<>(API.CAT_FACT.getValue(),
 				RandomCatFact.class);
 
 		http.asynchronousGet(new Callback() {
 			@Override
 			public void onFailure(@NotNull Call call, @NotNull IOException e) {
-				commandUtils.reply(Api.ERROR.getValue());
+				commandUtils.reply(API.ERROR.getValue());
 			}
 
 			@Override

@@ -39,8 +39,8 @@ public class HttpUtils<T> {
 		}
 	}
 
-	private Request checkHeadersPost(@Nullable Headers headers,
-	                                 @NotNull String json) {
+	private @NotNull Request checkHeadersPost(@Nullable Headers headers,
+	                                          @NotNull String json) {
 
 		RequestBody requestBody = RequestBody.create(JSON, json);
 

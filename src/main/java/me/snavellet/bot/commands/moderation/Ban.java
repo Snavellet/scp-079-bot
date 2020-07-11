@@ -3,6 +3,7 @@ package me.snavellet.bot.commands.moderation;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.snavellet.bot.utils.CommandUtils;
+import net.dv8tion.jda.api.Permission;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ public class Ban extends Command {
 		};
 		this.cooldown = CommandUtils.DEFAULT_COOLDOWN;
 		this.arguments = CommandUtils.ARGUMENTS_MODERATION;
+		this.userPermissions = new Permission[]{Permission.BAN_MEMBERS};
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import me.snavellet.bot.commands.moderation.Kick;
 import me.snavellet.bot.commands.utils.Avatar;
 import me.snavellet.bot.commands.utils.Purge;
 import me.snavellet.bot.commands.utils.UrlShorten;
+import me.snavellet.bot.listeners.CommandListener;
 import me.snavellet.bot.listeners.MessageListener;
 import me.snavellet.bot.listeners.ReadyListener;
 import me.snavellet.bot.utils.ConfigUtils;
@@ -38,6 +39,7 @@ public class Main {
 						"this server"))
 				.setOwnerId(configUtils.getOwnerId())
 				.useHelpBuilder(false)
+				.setListener(new CommandListener())
 				.addCommands(
 						// Fun
 						new Cat(),
@@ -63,16 +65,14 @@ public class Main {
 
 		CommandClient client = commandClientBuilder.build();
 
-		GatewayIntent[] gatewayIntentsArray = {
+		List<GatewayIntent> gatewayIntentsList = Arrays.asList(
 				GatewayIntent.GUILD_MEMBERS,
 				GatewayIntent.GUILD_MESSAGES,
 				GatewayIntent.DIRECT_MESSAGES,
 				GatewayIntent.GUILD_BANS,
 				GatewayIntent.GUILD_MESSAGE_REACTIONS,
 				GatewayIntent.GUILD_EMOJIS
-		};
-
-		List<GatewayIntent> gatewayIntentsList = Arrays.asList(gatewayIntentsArray);
+		);
 
 		JDA jda =
 				JDABuilder

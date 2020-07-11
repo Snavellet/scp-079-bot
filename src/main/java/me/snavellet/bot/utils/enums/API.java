@@ -1,6 +1,6 @@
 package me.snavellet.bot.utils.enums;
 
-public enum Api {
+public enum API {
 
 	CAT("https://api.thecatapi.com/v1/images/search"),
 	CAT_FACT("https://cat-fact.herokuapp.com/facts/random"),
@@ -12,7 +12,7 @@ public enum Api {
 
 	private final String value;
 
-	Api(String value) {
+	API(String value) {
 		this.value = value;
 	}
 

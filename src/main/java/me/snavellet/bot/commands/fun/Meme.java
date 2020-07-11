@@ -5,7 +5,7 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import me.snavellet.bot.entities.http.fun.memes.RandomMeme;
 import me.snavellet.bot.utils.CommandUtils;
 import me.snavellet.bot.utils.HttpUtils;
-import me.snavellet.bot.utils.enums.Api;
+import me.snavellet.bot.utils.enums.API;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
@@ -41,12 +41,12 @@ public class Meme extends Command {
 		User author = event.getAuthor();
 
 		HttpUtils<RandomMeme> http =
-				new HttpUtils<>(Api.MEME.getValue(), RandomMeme.class);
+				new HttpUtils<>(API.MEME.getValue(), RandomMeme.class);
 
 		http.asynchronousGet(new Callback() {
 			@Override
 			public void onFailure(@NotNull Call call, @NotNull IOException e) {
-				commandUtils.reply(Api.ERROR.getValue());
+				commandUtils.reply(API.ERROR.getValue());
 			}
 
 			@Override
