@@ -3,6 +3,7 @@ package me.snavellet.bot.commands.fun;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.snavellet.bot.utils.CommandUtils;
+import org.jetbrains.annotations.NotNull;
 
 public class Flip extends Command {
 
@@ -14,7 +15,7 @@ public class Flip extends Command {
 	}
 
 	@Override
-	protected void execute(CommandEvent event) {
+	protected void execute(@NotNull CommandEvent event) {
 
 		CommandUtils commandUtils = new CommandUtils(event);
 

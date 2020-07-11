@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.snavellet.bot.utils.CommandUtils;
 import net.dv8tion.jda.api.Permission;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,11 +24,11 @@ public class Ban extends Command {
 	}
 
 	@Override
-	protected void execute(CommandEvent event) {
+	protected void execute(@NotNull CommandEvent event) {
 
 		CommandUtils commandUtils = new CommandUtils(event);
 
-		Optional<List<String>> ids = commandUtils.getMentionsAndIdsAndEffectiveName();
+		Optional<List<String>> ids = commandUtils.getMentionsAndIdsAndNames();
 
 		if(ids.isEmpty()) {
 			commandUtils.reply(CommandUtils.ARGUMENTS_MISSING);

@@ -7,6 +7,8 @@ import me.snavellet.bot.commands.fun.Dog;
 import me.snavellet.bot.commands.fun.Flip;
 import me.snavellet.bot.commands.fun.Meme;
 import me.snavellet.bot.commands.general.Help;
+import me.snavellet.bot.commands.general.ServerInfo;
+import me.snavellet.bot.commands.general.UserInfo;
 import me.snavellet.bot.commands.knowledge.CatFact;
 import me.snavellet.bot.commands.moderation.Ban;
 import me.snavellet.bot.commands.moderation.Kick;
@@ -57,6 +59,8 @@ public class Main {
 
 						// General
 						new Help(),
+						new UserInfo(),
+						new ServerInfo(),
 
 						// Moderation
 						new Kick(),
@@ -71,7 +75,8 @@ public class Main {
 				GatewayIntent.DIRECT_MESSAGES,
 				GatewayIntent.GUILD_BANS,
 				GatewayIntent.GUILD_MESSAGE_REACTIONS,
-				GatewayIntent.GUILD_EMOJIS
+				GatewayIntent.GUILD_EMOJIS,
+				GatewayIntent.GUILD_PRESENCES
 		);
 
 		JDA jda =

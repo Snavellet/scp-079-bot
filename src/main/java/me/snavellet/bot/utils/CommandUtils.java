@@ -22,7 +22,8 @@ public class CommandUtils {
 
 	public static final String ARGUMENTS_MISSING = "please provide an argument!";
 	public static final String REASON_MISSING = "please provide a reason!";
-	public static final String ARGUMENTS_MODERATION = "(name | mention | id)... " +
+	public static final String ARGUMENTS_GENERAL = "(name | mention | id)";
+	public static final String ARGUMENTS_MODERATION = ARGUMENTS_GENERAL + "... " +
 			"\"[reason]\", must be in quotes.";
 	public static final int DEFAULT_COOLDOWN = 2;
 
@@ -69,7 +70,7 @@ public class CommandUtils {
 		}
 	}
 
-	public CompletableFuture<Message> reply(String message) {
+	public @NotNull CompletableFuture<Message> reply(String message) {
 		String messageReply = "<@" + this.author.getId() + ">, " + message;
 
 		return this.channel.sendMessage(messageReply).submit();
@@ -123,7 +124,7 @@ public class CommandUtils {
 		return Optional.ofNullable(result);
 	}
 
-	public Optional<List<String>> getMentionsAndIdsAndEffectiveName() {
+	public Optional<List<String>> getMentionsAndIdsAndNames() {
 		Optional<List<String>> arguments = this.getArgs();
 		if(arguments.isEmpty())
 			return Optional.empty();
@@ -143,6 +144,10 @@ public class CommandUtils {
 			List<Member> membersByEffectiveName = this.guild.getMembers().parallelStream()
 			                                                .filter(member -> member
 					                                                .getEffectiveName()
+					                                                .toLowerCase()
+					                                                .contains(arg.toLowerCase()) || member
+					                                                .getUser()
+					                                                .getName()
 					                                                .toLowerCase()
 					                                                .contains(arg.toLowerCase()))
 			                                                .limit(10)
@@ -164,14 +169,23 @@ public class CommandUtils {
 						.setTitle("Search for: " + arg + "\nFound multiple results (Max" +
 								" is 10)")
 						.setThumbnail(this.guild.getIconUrl());
-				membersByEffectiveName.forEach(member -> multipleNames.appendDescription(member
-						.getUser()
-						.getName() + "\n"));
+
+
+				membersByEffectiveName.forEach(member -> {
+					Optional<String> nickname = Optional.ofNullable(member.getNickname());
+					String username = member.getUser().getName();
+
+					multipleNames.appendDescription((nickname.isEmpty() ?
+							username : nickname.get() + " (" + username + ")") +
+							"\n");
+				});
 				this.channel.sendMessage(multipleNames.build()).submit();
 			} else if(membersByTag.isPresent()) {
 				ids.add(membersByTag.get().getId());
 			} else if(matchedIds.find()) {
 				ids.add(matchedIds.group(0));
+			} else {
+				this.reply("user `" + arg + "` does not exist in this server!");
 			}
 		});
 
@@ -179,7 +193,7 @@ public class CommandUtils {
 		return Optional.of(ids);
 	}
 
-	public Optional<Member> memberExistsById(String id) {
+	public Optional<Member> memberExistsById(@NotNull String id) {
 		return Optional.ofNullable(this.event.getGuild().getMemberById(id));
 	}
 

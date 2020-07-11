@@ -20,7 +20,7 @@ public class Avatar extends Command {
 		this.aliases = new String[]{"av", "pfp"};
 		this.cooldown = CommandUtils.DEFAULT_COOLDOWN;
 		this.help = "Gets the avatar of a mentioned member.";
-		this.arguments = "(name | mention | id)";
+		this.arguments = CommandUtils.ARGUMENTS_GENERAL;
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class Avatar extends Command {
 
 		String avatarSizeQuery = "?size=1024";
 
-		Optional<List<String>> ids = commandUtils.getMentionsAndIdsAndEffectiveName();
+		Optional<List<String>> ids = commandUtils.getMentionsAndIdsAndNames();
 
 		MessageEmbed embed;
 
