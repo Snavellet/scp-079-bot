@@ -4,14 +4,17 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.snavellet.bot.utils.CommandUtils;
+import me.snavellet.bot.utils.ConfigUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class Help extends Command {
@@ -41,10 +44,27 @@ public class Help extends Command {
 		);
 		Optional<List<String>> args = commandUtils.getArgs();
 
+		Optional<ConfigUtils> config = Optional.empty();
+
+		try {
+			config = Optional.of(new ConfigUtils());
+		} catch(IOException ioException) {
+			ioException.printStackTrace();
+		}
+
+		if(config.isEmpty())
+			return;
+
+		User owner = Objects
+				.requireNonNull(event.getJDA().getUserById(config.get().getOwnerId()));
+
 		EmbedBuilder embedBuilder = new EmbedBuilder()
 				.setAuthor(author.getName(), null,
 						author.getEffectiveAvatarUrl())
-				.setColor(color);
+				.setColor(color)
+				.setFooter("Made by " + owner.getAsTag() + " with care.",
+						owner.getEffectiveAvatarUrl());
+
 
 		if(args.isEmpty()) {
 			embedBuilder
