@@ -124,8 +124,30 @@ public class CommandUtils {
 		return Optional.ofNullable(result);
 	}
 
+	public Optional<List<String>> getArgsExcludeReason() {
+		@Nullable List<String> result;
+
+		Optional<Matcher> content = getReason(this.content);
+		String realContent;
+
+		if(content.isEmpty())
+			return Optional.empty();
+		else
+			realContent = content.get().replaceAll("");
+
+		if(realContent.equals("")) {
+			result = null;
+		} else if(Pattern.matches("\\w+\\S+", realContent)) {
+			result = Collections.singletonList(realContent);
+		} else {
+			result = Arrays.asList(realContent.split("\\s+"));
+		}
+
+		return Optional.ofNullable(result);
+	}
+
 	public Optional<List<String>> getMentionsAndIdsAndNames() {
-		Optional<List<String>> arguments = this.getArgs();
+		Optional<List<String>> arguments = this.getArgsExcludeReason();
 		if(arguments.isEmpty())
 			return Optional.empty();
 
@@ -185,11 +207,9 @@ public class CommandUtils {
 			} else if(matchedIds.find()) {
 				ids.add(matchedIds.group(0));
 			} else {
-				if(!getReason(arg)) {
-					this.reply("user `" + arg + "` does not exist in " +
-							"this " +
-							"server!");
-				}
+				this.reply("user `" + arg + "` does not exist in " +
+						"this " +
+						"server!");
 			}
 		});
 
@@ -210,7 +230,12 @@ public class CommandUtils {
 		return Optional.of(matcher.group(1));
 	}
 
-	public boolean getReason(@NotNull String arg) {
-		return arg.contains("\"");
+	public Optional<Matcher> getReason(String content) {
+		Matcher matcher = Pattern.compile("\"(.+)\"").matcher(content);
+
+		if(!matcher.find())
+			return Optional.empty();
+
+		return Optional.of(matcher);
 	}
 }
