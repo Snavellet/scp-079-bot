@@ -131,7 +131,7 @@ public class CommandUtils {
 		String realContent;
 
 		if(content.isEmpty())
-			return Optional.empty();
+			realContent = this.content;
 		else
 			realContent = content.get().replaceAll("");
 
@@ -222,7 +222,7 @@ public class CommandUtils {
 	}
 
 	public Optional<String> getReason() {
-		Matcher matcher = Pattern.compile("\"(.+)\"").matcher(this.content);
+		Matcher matcher = Pattern.compile("\"(.+?)\"").matcher(this.content);
 
 		if(!matcher.find())
 			return Optional.empty();
@@ -231,7 +231,7 @@ public class CommandUtils {
 	}
 
 	public Optional<Matcher> getReason(String content) {
-		Matcher matcher = Pattern.compile("\"(.+)\"").matcher(content);
+		Matcher matcher = Pattern.compile("\"(.+?)\"").matcher(content);
 
 		if(!matcher.find())
 			return Optional.empty();
