@@ -6,7 +6,7 @@ group 'me.snavellet'
 // Major.Minor.Revisions
 // Semantic versioning implemented
 // You might be wondering why the version don't start at 1.0.0. It's because the other repository got corrupted, so I had to remove it and create a new one; which is this one.
-version '1.6.2-beta'
+version '1.6.3-beta'
 
 repositories {
     mavenCentral()

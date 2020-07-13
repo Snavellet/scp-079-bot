@@ -185,12 +185,7 @@ public class CommandUtils {
 			} else if(matchedIds.find()) {
 				ids.add(matchedIds.group(0));
 			} else {
-				Optional<String> newArg = Optional.empty();
-				if(getReason(arg).isPresent()) {
-					newArg = Optional.of(getReason(arg).get().replaceAll(""));
-				}
-
-				if(newArg.isEmpty()) {
+				if(!getReason(arg)) {
 					this.reply("user `" + arg + "` does not exist in " +
 							"this " +
 							"server!");
@@ -215,12 +210,7 @@ public class CommandUtils {
 		return Optional.of(matcher.group(1));
 	}
 
-	public Optional<Matcher> getReason(String arg) {
-		Matcher matcher = Pattern.compile("\"(.+)\"").matcher(arg);
-
-		if(!matcher.find())
-			return Optional.empty();
-
-		return Optional.of(matcher);
+	public boolean getReason(@NotNull String arg) {
+		return arg.contains("\"");
 	}
 }
