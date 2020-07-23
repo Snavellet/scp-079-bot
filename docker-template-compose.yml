@@ -1,0 +1,29 @@
+# Copy this file and paste it in the current folder; name me to docker-compose.yml and fill details.
+
+version: "3.3"
+
+services:
+  rick-sanchez-db:
+    build:
+      context: .
+      dockerfile: db.Dockerfile
+      args:
+        MYSQL_ROOT_PASSWORD: ""
+        MYSQL_USER: ""
+        MYSQL_PASSWORD: ""
+    volumes:
+      - "rick-sanchez-db:/var/lib/mysql"
+      - "./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
+    ports:
+      - "3306:3306"
+  rick-sanchez-bot:
+    build:
+      context: .
+
+volumes:
+  rick-sanchez-db:
+
+networks:
+  default:
+    external:
+      name: rick-sanchez-net

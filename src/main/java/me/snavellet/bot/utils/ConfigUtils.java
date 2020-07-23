@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Properties;
 
 public class ConfigUtils {
@@ -15,6 +16,11 @@ public class ConfigUtils {
 
 	public ConfigUtils() throws IOException {
 		properties.load(propertiesFile);
+	}
+
+	public static @Nullable URL getHibernateConfigFile() {
+		return ConfigUtils.class.getClassLoader().getResource(
+				"hibernate/hibernate.cfg.xml");
 	}
 
 	public String getToken() {

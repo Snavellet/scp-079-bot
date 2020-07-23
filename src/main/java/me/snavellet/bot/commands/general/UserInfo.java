@@ -27,17 +27,17 @@ public class UserInfo extends Command {
 	@Override
 	protected void execute(@NotNull CommandEvent event) {
 
-		CommandUtils commandUtils = new CommandUtils(event);
+		UserUtils userUtils = new UserUtils(event);
 
-		Optional<List<String>> ids = commandUtils.getMentionsAndIdsAndNames();
+		Optional<List<String>> ids = userUtils.getMentionsAndIdsAndNames();
 
 		if(ids.isEmpty()) {
-			commandUtils.reply(CommandUtils.ARGUMENTS_MISSING);
+			userUtils.reply(CommandUtils.ARGUMENTS_MISSING);
 		} else if(ids.get().size() >= 1) {
-			Optional<Member> member = commandUtils.memberExistsById(ids.get().get(0));
+			Optional<Member> member = userUtils.memberExistsById(ids.get().get(0));
 
 			if(member.isEmpty()) {
-				commandUtils.reply(UserUtils.USER_INEXISTENT);
+				userUtils.reply(UserUtils.USER_INEXISTENT);
 			} else {
 				Color color = CommandUtils.getRandomItem(
 						Color.PINK,

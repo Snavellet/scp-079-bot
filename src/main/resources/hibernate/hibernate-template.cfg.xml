@@ -6,23 +6,23 @@
     <session-factory>
 
         <property name = "hibernate.dialect">
-            org.hibernate.dialect.MariaDBDialect
+            org.hibernate.dialect.MySQLDialect
         </property>
 
         <property name = "hibernate.connection.driver_class">
-            org.mariadb.jdbc.Driver
+            com.mysql.cj.jdbc.Driver
         </property>
 
         <property name = "hibernate.connection.url">
-            jdbc:mariadb://localhost:3306/INSERT_SCHEMA
+            jdbc:mysql://MYSQL_IP:MYSQL_PORT/INSERT_SCHEMA
         </property>
 
         <property name = "hibernate.connection.username">
-            MariaDB_USERNAME
+            MySQL_USERNAME
         </property>
 
         <property name = "hibernate.connection.password">
-            MariaDB_PASSWORD
+            MySQL_PASSWORD
         </property>
 
     </session-factory>

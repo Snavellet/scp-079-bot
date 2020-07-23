@@ -2,16 +2,12 @@ package me.snavellet.bot;
 
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
-import me.snavellet.bot.commands.fun.Cat;
-import me.snavellet.bot.commands.fun.Dog;
-import me.snavellet.bot.commands.fun.Flip;
-import me.snavellet.bot.commands.fun.Meme;
+import me.snavellet.bot.commands.fun.*;
 import me.snavellet.bot.commands.general.Help;
 import me.snavellet.bot.commands.general.ServerInfo;
 import me.snavellet.bot.commands.general.UserInfo;
 import me.snavellet.bot.commands.knowledge.CatFact;
-import me.snavellet.bot.commands.moderation.Ban;
-import me.snavellet.bot.commands.moderation.Kick;
+import me.snavellet.bot.commands.moderation.*;
 import me.snavellet.bot.commands.utils.Avatar;
 import me.snavellet.bot.commands.utils.Purge;
 import me.snavellet.bot.commands.utils.UrlShorten;
@@ -48,6 +44,7 @@ public class Main {
 						new Dog(),
 						new Meme(),
 						new Flip(),
+						new Ask(),
 
 						// Knowledge
 						new CatFact(),
@@ -64,8 +61,12 @@ public class Main {
 
 						// Moderation
 						new Kick(),
-						new Ban()
+						new Ban(),
+						new Warn(),
+						new Warnings(),
+						new ClearWarns()
 				);
+
 
 		CommandClient client = commandClientBuilder.build();
 

@@ -1,0 +1,2 @@
+Fill in the details, create a new directory called exactly "docker-entrypoint-initdb.d" (without quotes)
+in the project root and copy all the files in this folder to that one.

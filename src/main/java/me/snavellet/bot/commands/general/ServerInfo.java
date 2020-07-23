@@ -44,7 +44,7 @@ public class ServerInfo extends Command {
 				.addField("Server Name", guild.getName(), false)
 				.addField("Owner Name", Objects
 						.requireNonNull(guild.getOwner())
-						.getUser().getName(), false)
+						.getUser().getAsTag(), false)
 				.addField("Channel Count", String.valueOf(guild
 						.getChannels()
 						.size()), false)

@@ -27,11 +27,11 @@ public class CommandUtils {
 			"\"[reason]\", must be in quotes.";
 	public static final int DEFAULT_COOLDOWN = 2;
 
-	private final User author;
-	private final MessageChannel channel;
-	private final Guild guild;
-	private final String content;
-	private final @NotNull CommandEvent event;
+	protected final User author;
+	protected final MessageChannel channel;
+	protected final Guild guild;
+	protected final String content;
+	protected final @NotNull CommandEvent event;
 
 	public CommandUtils(@NotNull CommandEvent event) {
 		this.author = event.getAuthor();
@@ -148,6 +148,8 @@ public class CommandUtils {
 
 	public Optional<List<String>> getMentionsAndIdsAndNames() {
 		Optional<List<String>> arguments = this.getArgsExcludeReason();
+
+		// If no arguments, return empty
 		if(arguments.isEmpty())
 			return Optional.empty();
 
@@ -213,12 +215,8 @@ public class CommandUtils {
 			}
 		});
 
-
+		// If no ids, length is less than 1
 		return Optional.of(ids);
-	}
-
-	public Optional<Member> memberExistsById(@NotNull String id) {
-		return Optional.ofNullable(this.event.getGuild().getMemberById(id));
 	}
 
 	public Optional<String> getReason() {
@@ -230,7 +228,7 @@ public class CommandUtils {
 		return Optional.of(matcher.group(1));
 	}
 
-	public Optional<Matcher> getReason(String content) {
+	private Optional<Matcher> getReason(@NotNull String content) {
 		Matcher matcher = Pattern.compile("\"(.+?)\"").matcher(content);
 
 		if(!matcher.find())
