@@ -26,7 +26,7 @@ public class Warnings extends Command {
 		this.userPermissions = new Permission[]{Permission.KICK_MEMBERS};
 		this.cooldown = CommandUtils.DEFAULT_COOLDOWN;
 		this.help = "Gets the list of warnings of a member.";
-		this.aliases = new String[]{"infractions"};
+		this.aliases = new String[]{"infractions", "warns"};
 		this.arguments = CommandUtils.ARGUMENTS_GENERAL;
 	}
 

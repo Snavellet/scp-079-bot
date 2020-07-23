@@ -6,6 +6,7 @@ import me.snavellet.bot.utils.CommandUtils;
 import me.snavellet.bot.utils.UserUtils;
 import me.snavellet.bot.utils.db.WarningUtilsDB;
 import me.snavellet.bot.utils.enums.WarningEnum;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +21,7 @@ public class ClearWarns extends Command {
 		this.aliases = new String[]{"clearnwarn"};
 		this.help = "Clear all the warns of a specific user.";
 		this.arguments = CommandUtils.ARGUMENTS_GENERAL;
+		this.userPermissions = new Permission[]{Permission.KICK_MEMBERS};
 		this.cooldown = CommandUtils.DEFAULT_COOLDOWN;
 	}
 
