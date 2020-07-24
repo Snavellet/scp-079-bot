@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS `servers`.`warnings`
     `guild_id`      VARCHAR(25) NOT NULL,
     `user_id`       VARCHAR(25) NOT NULL,
     `moderator_id`  VARCHAR(25) NOT NULL,
-    `moderator_tag` VARCHAR(25) NOT NULL,
     `date_ms`       BIGINT(25),
     `reason`        VARCHAR(100),
     PRIMARY KEY (`id`)
