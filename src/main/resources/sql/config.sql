@@ -1,8 +1,6 @@
-DROP SCHEMA IF EXISTS servers;
+CREATE SCHEMA IF NOT EXISTS servers;
 
-CREATE SCHEMA servers;
-
-CREATE TABLE `servers`.`skids`
+CREATE TABLE IF NOT EXISTS `servers`.`skids`
 (
     `id`       INT(25)     NOT NULL AUTO_INCREMENT,
     `guild_id` VARCHAR(25) NOT NULL,
@@ -11,7 +9,7 @@ CREATE TABLE `servers`.`skids`
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
 
-CREATE TABLE `servers`.`warnings`
+CREATE TABLE IF NOT EXISTS `servers`.`warnings`
 (
     `id`            INT(25)     NOT NULL AUTO_INCREMENT,
     `guild_id`      VARCHAR(25) NOT NULL,
