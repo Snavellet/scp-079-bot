@@ -16,9 +16,11 @@ services:
       - "./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
     ports:
       - "3306:3306"
+    restart: always
   rick-sanchez-bot:
     build:
       context: .
+    restart: always
 
 volumes:
   rick-sanchez-db:
