@@ -82,10 +82,23 @@ public class Warnings extends Command {
 										.toInstant()
 										.atOffset(ZoneOffset.UTC));
 
+						Optional<Member> optMember =
+								Optional.ofNullable(event
+										.getGuild()
+										.getMemberById(warning.getModeratorId()));
+
+						String newMember;
+
+						if(optMember.isEmpty()) {
+							newMember = "THIS_MEMBER_IS_INEXISTENT";
+						} else {
+							newMember = optMember.get().getUser().getAsTag();
+						}
+
 						String infraction = new StringBuilder()
 								.append(j)
 								.append(". Moderator: ")
-								.append(warning.getModeratorTag())
+								.append(newMember)
 								.append(" | ")
 								.append(warning.getModeratorId())
 								.append("\n")

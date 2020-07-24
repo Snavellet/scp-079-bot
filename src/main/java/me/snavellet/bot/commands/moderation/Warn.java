@@ -59,7 +59,6 @@ public class Warn extends Command {
 					   Warning warning = new WarningBuilder()
 							   .setGuildId(guild.getId())
 							   .setUserId(id)
-							   .setModeratorTag(author.getAsTag())
 							   .setModeratorId(author.getId())
 							   .setReason(reason.get())
 							   .setDateMs(System.currentTimeMillis())

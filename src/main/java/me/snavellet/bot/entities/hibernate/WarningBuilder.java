@@ -25,11 +25,6 @@ public class WarningBuilder {
 		return this;
 	}
 
-	public @NotNull WarningBuilder setModeratorTag(String moderatorTag) {
-		this.moderatorTag = moderatorTag;
-		return this;
-	}
-
 	public @NotNull WarningBuilder setDateMs(long dateMs) {
 		this.dateMs = dateMs;
 		return this;
@@ -41,6 +36,6 @@ public class WarningBuilder {
 	}
 
 	public @NotNull Warning createWarning() {
-		return new Warning(guildId, userId, moderatorId, moderatorTag, dateMs, reason);
+		return new Warning(guildId, userId, moderatorId, dateMs, reason);
 	}
 }

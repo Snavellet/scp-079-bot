@@ -20,9 +20,6 @@ public class Warning {
 	@Column(name = "moderator_id", nullable = false)
 	private String moderatorId;
 
-	@Column(name = "moderator_tag", nullable = false)
-	private String moderatorTag;
-
 	@Column(name = "date_ms", nullable = false)
 	private long dateMs;
 
@@ -33,11 +30,10 @@ public class Warning {
 	}
 
 	public Warning(String guildId, String userId, String moderatorId,
-	               String moderatorTag, long dateMs, String reason) {
+	               long dateMs, String reason) {
 		this.guildId = guildId;
 		this.userId = userId;
 		this.moderatorId = moderatorId;
-		this.moderatorTag = moderatorTag;
 		this.dateMs = dateMs;
 		this.reason = reason;
 	}
@@ -68,14 +64,6 @@ public class Warning {
 
 	public void setModeratorId(String moderatorId) {
 		this.moderatorId = moderatorId;
-	}
-
-	public String getModeratorTag() {
-		return moderatorTag;
-	}
-
-	public void setModeratorTag(String moderatorTag) {
-		this.moderatorTag = moderatorTag;
 	}
 
 	public long getDateMs() {
