@@ -3,6 +3,7 @@ package me.snavellet.bot.commands.fun;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.snavellet.bot.entities.http.fun.memes.RandomMeme;
+import me.snavellet.bot.utils.ColorUtils;
 import me.snavellet.bot.utils.CommandUtils;
 import me.snavellet.bot.utils.HttpUtils;
 import me.snavellet.bot.utils.enums.API;
@@ -31,12 +32,7 @@ public class Meme extends Command {
 
 		CommandUtils commandUtils = new CommandUtils(event);
 
-		Color color = CommandUtils.getRandomItem(
-				Color.PINK,
-				Color.ORANGE,
-				Color.MAGENTA,
-				Color.BLUE
-		);
+		Color color = ColorUtils.getRandomColor();
 
 		User author = event.getAuthor();
 

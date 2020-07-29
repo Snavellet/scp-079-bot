@@ -35,7 +35,7 @@ public class ConfigUtils {
 		return properties.getProperty("owner_id");
 	}
 
-	public String getWitAccessToken() {
-		return properties.getProperty("wit_access_token");
+	public String getNasaApiKey() {
+		return properties.getProperty("nasa_api_key");
 	}
 }

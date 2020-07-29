@@ -2,6 +2,7 @@ package me.snavellet.bot.commands.general;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.snavellet.bot.utils.ColorUtils;
 import me.snavellet.bot.utils.CommandUtils;
 import me.snavellet.bot.utils.UserUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -25,13 +26,7 @@ public class ServerInfo extends Command {
 	@Override
 	protected void execute(@NotNull CommandEvent event) {
 
-		Color color = CommandUtils.getRandomItem(
-				Color.CYAN,
-				Color.RED,
-				Color.GREEN,
-				Color.PINK,
-				Color.MAGENTA
-		);
+		Color color = ColorUtils.getRandomColor();
 
 		Guild guild = event.getGuild();
 

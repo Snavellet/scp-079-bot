@@ -3,6 +3,7 @@ package me.snavellet.bot.commands.general;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.snavellet.bot.utils.ColorUtils;
 import me.snavellet.bot.utils.CommandUtils;
 import me.snavellet.bot.utils.ConfigUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -36,12 +37,8 @@ public class Help extends Command {
 		User author = event.getAuthor();
 		MessageChannel channel = event.getChannel();
 
-		Color color = CommandUtils.getRandomItem(
-				Color.CYAN,
-				Color.ORANGE,
-				Color.GREEN,
-				Color.MAGENTA
-		);
+		Color color = ColorUtils.getRandomColor();
+
 		Optional<List<String>> args = commandUtils.getArgs();
 
 		Optional<ConfigUtils> config = Optional.empty();

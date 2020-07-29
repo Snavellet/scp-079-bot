@@ -2,6 +2,7 @@ package me.snavellet.bot.commands.utils;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.snavellet.bot.utils.ColorUtils;
 import me.snavellet.bot.utils.CommandUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -30,12 +31,7 @@ public class Avatar extends Command {
 
 		User author = event.getAuthor();
 
-		Color color = CommandUtils.getRandomItem(
-				Color.CYAN,
-				Color.ORANGE,
-				Color.GREEN,
-				Color.MAGENTA
-		);
+		Color color = ColorUtils.getRandomColor();
 
 		EmbedBuilder embedBuilder = new EmbedBuilder()
 				.setDescription("Avatar:")

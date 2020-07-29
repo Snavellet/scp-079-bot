@@ -27,7 +27,6 @@ public class Warn extends Command {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	protected void execute(@NotNull CommandEvent event) {
 
 		WarningUtilsDB warningsUtils = new WarningUtilsDB(event);
@@ -51,6 +50,7 @@ public class Warn extends Command {
 				   .forEach(id -> {
 					   Member member = guild.getMemberById(id);
 
+					   assert member != null;
 					   String message = "I warned `" + member.getUser().getAsTag() +
 							   "` " +
 							   "for `" + reason.get() + "`.";

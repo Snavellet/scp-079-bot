@@ -14,7 +14,7 @@ import java.util.Optional;
 @SuppressWarnings("unchecked")
 public class WarningUtilsDB extends DatabaseUtils {
 
-	public WarningUtilsDB(CommandEvent event) {
+	public WarningUtilsDB(@NotNull CommandEvent event) {
 		super(Warning.class, event);
 	}
 

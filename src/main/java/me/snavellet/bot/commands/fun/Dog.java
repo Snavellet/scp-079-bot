@@ -3,6 +3,7 @@ package me.snavellet.bot.commands.fun;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.snavellet.bot.entities.http.animals.randomDog.RandomDog;
+import me.snavellet.bot.utils.ColorUtils;
 import me.snavellet.bot.utils.CommandUtils;
 import me.snavellet.bot.utils.HttpUtils;
 import me.snavellet.bot.utils.enums.API;
@@ -31,12 +32,7 @@ public class Dog extends Command {
 
 		CommandUtils commandUtils = new CommandUtils(event);
 
-		Color color = CommandUtils.getRandomItem(
-				Color.GRAY,
-				Color.YELLOW,
-				Color.CYAN,
-				Color.pink
-		);
+		Color color = ColorUtils.getRandomColor();
 
 		User author = event.getAuthor();
 

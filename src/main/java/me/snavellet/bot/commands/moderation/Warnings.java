@@ -3,6 +3,7 @@ package me.snavellet.bot.commands.moderation;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.snavellet.bot.entities.hibernate.Warning;
+import me.snavellet.bot.utils.ColorUtils;
 import me.snavellet.bot.utils.CommandUtils;
 import me.snavellet.bot.utils.UserUtils;
 import me.snavellet.bot.utils.db.WarningUtilsDB;
@@ -31,17 +32,11 @@ public class Warnings extends Command {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	protected void execute(@NotNull CommandEvent event) {
 
 		WarningUtilsDB warningUtils = new WarningUtilsDB(event);
 
-		Color color = CommandUtils.getRandomItem(
-				Color.MAGENTA,
-				Color.BLUE,
-				Color.GREEN,
-				Color.LIGHT_GRAY
-		);
+		Color color = ColorUtils.getRandomColor();
 
 
 		User author = event.getAuthor();
@@ -95,17 +90,17 @@ public class Warnings extends Command {
 							newMember = optMember.get().getUser().getAsTag();
 						}
 
-						String infraction = new StringBuilder()
-								.append(j)
-								.append(". Moderator: ")
-								.append(newMember)
-								.append(" | ")
-								.append(warning.getModeratorId())
-								.append("\n")
-								.append("--Reason: " + warning.getReason())
-								.append("\n--Time: " + date)
-								.append("\n\n")
-								.toString();
+						String infraction = j +
+								". Moderator: " +
+								newMember +
+								" | " +
+								warning.getModeratorId() +
+								"\n" +
+								"--Reason: " +
+								warning.getReason() +
+								"\n--Time: " +
+								date +
+								"\n\n";
 
 						embed.appendDescription(infraction);
 					}

@@ -12,7 +12,6 @@ import me.snavellet.bot.commands.utils.Avatar;
 import me.snavellet.bot.commands.utils.Purge;
 import me.snavellet.bot.commands.utils.UrlShorten;
 import me.snavellet.bot.listeners.CommandListener;
-import me.snavellet.bot.listeners.MessageListener;
 import me.snavellet.bot.listeners.ReadyListener;
 import me.snavellet.bot.utils.ConfigUtils;
 import net.dv8tion.jda.api.JDA;
@@ -45,6 +44,7 @@ public class Main {
 						new Meme(),
 						new Flip(),
 						new Ask(),
+						new Apod(),
 
 						// Knowledge
 						new CatFact(),
@@ -85,8 +85,7 @@ public class Main {
 						.create(configUtils.getToken(), gatewayIntentsList)
 						.addEventListeners(
 								client,
-								new ReadyListener(),
-								new MessageListener()
+								new ReadyListener()
 						)
 						.build();
 

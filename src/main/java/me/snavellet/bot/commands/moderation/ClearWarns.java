@@ -7,7 +7,6 @@ import me.snavellet.bot.utils.UserUtils;
 import me.snavellet.bot.utils.db.WarningUtilsDB;
 import me.snavellet.bot.utils.enums.WarningEnum;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,14 +25,11 @@ public class ClearWarns extends Command {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	protected void execute(@NotNull CommandEvent event) {
 
 		WarningUtilsDB warningsUtils = new WarningUtilsDB(event);
 
 		Optional<List<String>> ids = warningsUtils.getMentionsAndIdsAndNames();
-
-		Guild guild = event.getGuild();
 
 		if(ids.isEmpty()) {
 			warningsUtils.reply(UserUtils.ARGUMENTS_MISSING);

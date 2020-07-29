@@ -2,6 +2,7 @@ package me.snavellet.bot.commands.general;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.snavellet.bot.utils.ColorUtils;
 import me.snavellet.bot.utils.CommandUtils;
 import me.snavellet.bot.utils.UserUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -39,12 +40,7 @@ public class UserInfo extends Command {
 			if(member.isEmpty()) {
 				userUtils.reply(UserUtils.USER_INEXISTENT);
 			} else {
-				Color color = CommandUtils.getRandomItem(
-						Color.PINK,
-						Color.RED,
-						Color.MAGENTA,
-						Color.GREEN
-				);
+				Color color = ColorUtils.getRandomColor();
 
 				User user = member.get().getUser();
 

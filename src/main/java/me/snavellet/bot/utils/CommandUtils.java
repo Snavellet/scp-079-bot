@@ -166,6 +166,21 @@ public class CommandUtils {
 
 		args.forEach(arg -> {
 			List<Member> membersByEffectiveName = this.guild.getMembers().parallelStream()
+			                                                /*
+			                                                If the member has a
+			                                                nickname, it will filter
+			                                                the one if the arg matches;
+			                                                the username if
+			                                                there is no nickname while
+			                                                the arg matches and the other
+			                                                will scan the
+			                                                member, if the arg is the
+			                                                username of the member and
+			                                                if a nickname is present,
+			                                                so that condition will be
+			                                                true, the one after the OR
+			                                                operator.
+			                                                */
 			                                                .filter(member -> member
 					                                                .getEffectiveName()
 					                                                .toLowerCase()
