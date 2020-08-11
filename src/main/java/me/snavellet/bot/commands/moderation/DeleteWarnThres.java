@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.snavellet.bot.utils.CommandUtils;
 import me.snavellet.bot.utils.db.WarningThresholdUtilsDB;
+import net.dv8tion.jda.api.Permission;
 
 public class DeleteWarnThres extends Command {
 
@@ -12,6 +13,7 @@ public class DeleteWarnThres extends Command {
 		this.aliases = new String[]{"rmwarnthres", "removewarnthres"};
 		this.help = "Removes the warning threshold if it exists.";
 		this.cooldown = CommandUtils.DEFAULT_COOLDOWN;
+		this.userPermissions = new Permission[]{Permission.KICK_MEMBERS};
 	}
 
 	@Override
