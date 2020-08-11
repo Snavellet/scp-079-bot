@@ -2,6 +2,7 @@ package me.snavellet.bot.utils;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.OffsetDateTime;
@@ -16,6 +17,10 @@ public class UserUtils extends CommandUtils {
 			"server anymore!";
 
 	public UserUtils(@NotNull CommandEvent event) {
+		super(event);
+	}
+
+	public UserUtils(@NotNull MessageReceivedEvent event) {
 		super(event);
 	}
 

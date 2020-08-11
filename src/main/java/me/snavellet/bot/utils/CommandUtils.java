@@ -5,6 +5,7 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,7 +32,8 @@ public class CommandUtils {
 	protected final MessageChannel channel;
 	protected final Guild guild;
 	protected final String content;
-	protected final @NotNull CommandEvent event;
+	protected final CommandEvent event;
+	protected final MessageReceivedEvent messageReceivedEvent;
 
 	public CommandUtils(@NotNull CommandEvent event) {
 		this.author = event.getAuthor();
@@ -39,6 +41,16 @@ public class CommandUtils {
 		this.guild = event.getGuild();
 		this.content = event.getArgs();
 		this.event = event;
+		this.messageReceivedEvent = null;
+	}
+
+	public CommandUtils(@NotNull MessageReceivedEvent event) {
+		this.author = event.getAuthor();
+		this.channel = event.getChannel();
+		this.guild = event.getGuild();
+		this.content = null;
+		this.messageReceivedEvent = event;
+		this.event = null;
 	}
 
 	public static List<String> getCommandsCategories() {
@@ -111,6 +123,7 @@ public class CommandUtils {
 	}
 
 	public Optional<List<String>> getArgs() {
+		methodCheckAvailability();
 		@Nullable List<String> result;
 
 		if(this.content.equals("")) {
@@ -125,6 +138,7 @@ public class CommandUtils {
 	}
 
 	public Optional<List<String>> getArgsExcludeReason() {
+		methodCheckAvailability();
 		@Nullable List<String> result;
 
 		Optional<Matcher> content = getReason(this.content);
@@ -161,7 +175,10 @@ public class CommandUtils {
 				Color.GREEN
 		);
 
-		List<String> args = arguments.get();
+		List<String> args = arguments.get()
+		                             .stream()
+		                             .distinct()
+		                             .collect(Collectors.toList());
 		List<String> ids = new ArrayList<>();
 
 		args.forEach(arg -> {
@@ -235,6 +252,7 @@ public class CommandUtils {
 	}
 
 	public Optional<String> getReason() {
+		methodCheckAvailability();
 		Matcher matcher = Pattern.compile("\"(.+?)\"").matcher(this.content);
 
 		if(!matcher.find())
@@ -244,11 +262,18 @@ public class CommandUtils {
 	}
 
 	private Optional<Matcher> getReason(@NotNull String content) {
+		methodCheckAvailability();
 		Matcher matcher = Pattern.compile("\"(.+?)\"").matcher(content);
 
 		if(!matcher.find())
 			return Optional.empty();
 
 		return Optional.of(matcher);
+	}
+
+	protected void methodCheckAvailability() throws NullPointerException {
+		if(this.event == null)
+			throw new NullPointerException("The command event is not available for this" +
+					" method!");
 	}
 }

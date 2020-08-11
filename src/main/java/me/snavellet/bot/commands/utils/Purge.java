@@ -52,10 +52,8 @@ public class Purge extends Command {
 		}
 
 		List<Message> messages =
-				channel
-						.getHistory()
-						.retrievePast(amountToPurge + 1)
-						.complete();
+				amountToPurge == 100 ? purge(channel, amountToPurge) : purge(channel,
+						amountToPurge + 1);
 
 		try {
 			channel
@@ -75,5 +73,12 @@ public class Purge extends Command {
 			commandUtils.reply("there are no messages here!");
 		}
 
+	}
+
+	private List<Message> purge(TextChannel channel, int amountToPurge) {
+		return channel
+				.getHistory()
+				.retrievePast(amountToPurge)
+				.complete();
 	}
 }

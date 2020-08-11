@@ -5,6 +5,7 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import me.snavellet.bot.entities.hibernate.Warning;
 import me.snavellet.bot.entities.hibernate.WarningBuilder;
 import me.snavellet.bot.utils.CommandUtils;
+import me.snavellet.bot.utils.db.WarningThresholdUtilsDB;
 import me.snavellet.bot.utils.db.WarningUtilsDB;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -13,6 +14,7 @@ import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class Warn extends Command {
@@ -30,6 +32,8 @@ public class Warn extends Command {
 	protected void execute(@NotNull CommandEvent event) {
 
 		WarningUtilsDB warningsUtils = new WarningUtilsDB(event);
+		WarningThresholdUtilsDB warningThresholdUtils =
+				new WarningThresholdUtilsDB(event);
 
 		Optional<List<String>> ids = warningsUtils.getMentionsAndIdsAndNames();
 
@@ -55,18 +59,36 @@ public class Warn extends Command {
 							   "` " +
 							   "for `" + reason.get() + "`.";
 
+					   Optional<List<Warning>> warnings =
+							   warningsUtils.getAllWarnings(id);
 
-					   Warning warning = new WarningBuilder()
-							   .setGuildId(guild.getId())
-							   .setUserId(id)
-							   .setModeratorId(author.getId())
-							   .setReason(reason.get())
-							   .setDateMs(System.currentTimeMillis())
-							   .createWarning();
+					   Optional<Integer> warningThreshold =
+							   warningThresholdUtils.getThreshold();
 
-					   warningsUtils.warnUser(warning);
+					   if((warnings.isPresent() && warningThreshold.isPresent()) && (warnings
+							   .get()
+							   .size() >= (warningThreshold.get() - 1))) {
+						   warningsUtils.reply("I will be banning him/her for reaching " +
+								   "the defined warning threshold, `" + warningThreshold.get() + "`!")
+						                .thenAccept(msg -> Objects
+								                .requireNonNull(msg
+										                .getGuild()
+										                .getMemberById(id))
+								                .ban(0,
+										                reason.get()).submit());
+					   } else {
+						   Warning warning = new WarningBuilder()
+								   .setGuildId(guild.getId())
+								   .setUserId(id)
+								   .setModeratorId(author.getId())
+								   .setReason(reason.get())
+								   .setDateMs(System.currentTimeMillis())
+								   .createWarning();
 
-					   warningsUtils.reply(message);
+						   warningsUtils.warnUser(warning);
+
+						   warningsUtils.reply(message);
+					   }
 				   });
 			}
 		}

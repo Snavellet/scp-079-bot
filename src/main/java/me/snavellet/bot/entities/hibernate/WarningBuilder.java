@@ -6,7 +6,6 @@ public class WarningBuilder {
 	private String guildId;
 	private String userId;
 	private String moderatorId;
-	private String moderatorTag;
 	private long dateMs;
 	private String reason;
 

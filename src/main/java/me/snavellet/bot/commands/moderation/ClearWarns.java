@@ -34,26 +34,26 @@ public class ClearWarns extends Command {
 		if(ids.isEmpty()) {
 			warningsUtils.reply(UserUtils.ARGUMENTS_MISSING);
 		} else if(ids.get().size() >= 1) {
-			Optional<Member> member = warningsUtils.memberExistsById(ids.get().get(0));
+			ids.get().forEach(id -> {
+				Optional<Member> member = warningsUtils.memberExistsById(id);
 
-			if(member.isEmpty()) {
-				warningsUtils.reply(UserUtils.USER_INEXISTENT);
-			} else {
+				if(member.isEmpty()) {
+					warningsUtils.reply(UserUtils.USER_INEXISTENT);
+				} else {
+					try {
+						int numberOfWarns =
+								warningsUtils.deleteAllWarns(member.get().getId());
 
-				try {
-					int numberOfWarns =
-							warningsUtils.deleteAllWarns(member.get().getId());
-
-					warningsUtils.reply("I cleared **" + numberOfWarns + "** " +
-							"infractions for ***" + member
-							.get()
-							.getUser()
-							.getAsTag() + "***.");
-				} catch(NullPointerException exception) {
-					warningsUtils.reply(WarningEnum.NO_WARNINGS.getValue());
+						warningsUtils.reply("I cleared **" + numberOfWarns + "** " +
+								"infraction(s) for ***" + member
+								.get()
+								.getUser()
+								.getAsTag() + "***.");
+					} catch(NullPointerException exception) {
+						warningsUtils.reply(WarningEnum.NO_WARNINGS.getValue());
+					}
 				}
-			}
-
+			});
 		}
 	}
 }

@@ -28,7 +28,7 @@ public class Ask extends Command {
 				"most definitely.",
 				"I don't think so.",
 				"suppose that you are asking a genius an idiotic question.",
-				"please don't waste my time",
+				"please don't waste my time.",
 				"yes.",
 				"no.",
 				"nah."

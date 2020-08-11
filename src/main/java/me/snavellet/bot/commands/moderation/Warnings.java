@@ -47,68 +47,67 @@ public class Warnings extends Command {
 			warningUtils.reply(CommandUtils.ARGUMENTS_MISSING);
 		} else if(ids.get().size() >= 1) {
 			try {
-				final String id = ids.get().get(0);
-				Optional<List<Warning>> warnings =
-						warningUtils.getAllWarnings(id);
+				ids.get().forEach(id -> {
+					Optional<List<Warning>> warnings =
+							warningUtils.getAllWarnings(id);
 
-				if(warnings.isPresent()) {
-					final Member member = event.getGuild().getMemberById(id);
+					if(warnings.isPresent()) {
+						final Member member = event.getGuild().getMemberById(id);
 
-					assert member != null;
-					EmbedBuilder embed = new EmbedBuilder()
-							.setTitle("List of infractions for " + member
-									.getUser()
-									.getAsTag())
-							.setColor(color)
-							.setThumbnail(member.getUser().getEffectiveAvatarUrl())
-							.setDescription("This user has " + warnings
-									.get()
-									.size() + " " +
-									"infractions\n\n")
-							.setAuthor(author.getName(),
-									null, author.getEffectiveAvatarUrl());
+						assert member != null;
+						EmbedBuilder embed = new EmbedBuilder()
+								.setTitle("List of infractions for " + member
+										.getUser()
+										.getAsTag())
+								.setColor(color)
+								.setThumbnail(member.getUser().getEffectiveAvatarUrl())
+								.setDescription("This user has " + warnings
+										.get()
+										.size() + " " +
+										"infractions\n\n")
+								.setAuthor(author.getName(),
+										null, author.getEffectiveAvatarUrl());
 
-					for(int i = 0, j = 1; i < warnings.get().size(); i++, j++) {
+						for(int i = 0, j = 1; i < warnings.get().size(); i++, j++) {
 
-						Warning warning = warnings.get().get(i);
+							Warning warning = warnings.get().get(i);
 
-						String date =
-								UserUtils.formatDate(new Date(warning.getDateMs())
-										.toInstant()
-										.atOffset(ZoneOffset.UTC));
+							String date =
+									UserUtils.formatDate(new Date(warning.getDateMs())
+											.toInstant()
+											.atOffset(ZoneOffset.UTC));
 
-						Optional<Member> optMember =
-								Optional.ofNullable(event
-										.getGuild()
-										.getMemberById(warning.getModeratorId()));
+							Optional<Member> optMember =
+									Optional.ofNullable(event
+											.getGuild()
+											.getMemberById(warning.getModeratorId()));
 
-						String newMember;
+							String newMember;
 
-						if(optMember.isEmpty()) {
-							newMember = "THIS_MEMBER_IS_INEXISTENT";
-						} else {
-							newMember = optMember.get().getUser().getAsTag();
+							newMember = optMember
+									.map(value -> value.getUser().getAsTag())
+									.orElse("THIS_MEMBER_IS_INEXISTENT");
+
+							String infraction = j +
+									". Moderator: " +
+									newMember +
+									" | " +
+									warning.getModeratorId() +
+									"\n" +
+									"--Reason: " +
+									warning.getReason() +
+									"\n--Time: " +
+									date +
+									"\n\n";
+
+							embed.appendDescription(infraction);
 						}
 
-						String infraction = j +
-								". Moderator: " +
-								newMember +
-								" | " +
-								warning.getModeratorId() +
-								"\n" +
-								"--Reason: " +
-								warning.getReason() +
-								"\n--Time: " +
-								date +
-								"\n\n";
-
-						embed.appendDescription(infraction);
+						event.getChannel().sendMessage(embed.build()).submit();
+					} else {
+						warningUtils.reply(WarningEnum.NO_WARNINGS.getValue());
 					}
-
-					event.getChannel().sendMessage(embed.build()).submit();
-				} else {
-					warningUtils.reply(WarningEnum.NO_WARNINGS.getValue());
-				}
+				});
 			} catch(NullPointerException exception) {
 				warningUtils.reply(UserUtils.USER_INEXISTENT);
 			}

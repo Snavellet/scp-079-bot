@@ -11,7 +11,7 @@ public class Warning {
 	@Column(name = "id", nullable = false, updatable = false)
 	private int id;
 
-	@Column(name = "guild_id", nullable = false)
+	@Column(name = "guild_id", updatable = false, nullable = false)
 	private String guildId;
 
 	@Column(name = "user_id", nullable = false)

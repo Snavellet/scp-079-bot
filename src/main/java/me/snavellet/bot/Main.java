@@ -64,7 +64,9 @@ public class Main {
 						new Ban(),
 						new Warn(),
 						new Warnings(),
-						new ClearWarns()
+						new ClearWarns(),
+						new WarnThres(),
+						new DeleteWarnThres()
 				);
 
 

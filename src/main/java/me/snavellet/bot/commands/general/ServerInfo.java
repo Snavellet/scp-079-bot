@@ -60,40 +60,6 @@ public class ServerInfo extends Command {
 				.addField("Created At", UserUtils.formatDate(guild.getTimeCreated()),
 						true);
 
-
-//		EmbedBuilder newEmbed = new EmbedBuilder()
-//				.setTitle("Server Information")
-//				.setThumbnail(guild.getIconUrl())
-//				.setColor(color);
-//
-//		List<MessageEmbed.Field> newFields = new ArrayList<>();
-//
-//		final String ZERO_WIDTH_SPACE = "\u200E";
-//
-//		int j = 0;
-//
-//		for(int i = 0; i < embed.getFields().size(); i++) {
-//			if((i != 0 && i != j) && i % 2 == 0) {
-//				newFields.add(new MessageEmbed.Field(ZERO_WIDTH_SPACE,
-//						ZERO_WIDTH_SPACE, true));
-//				newFields.add(new MessageEmbed.Field(ZERO_WIDTH_SPACE,
-//						ZERO_WIDTH_SPACE, true));
-//				newFields.add(new MessageEmbed.Field(ZERO_WIDTH_SPACE,
-//						ZERO_WIDTH_SPACE, true));
-//				newFields.add(new MessageEmbed.Field(ZERO_WIDTH_SPACE,
-//						ZERO_WIDTH_SPACE, true));
-//			} else {
-//				newFields.add(embed.getFields().get(i));
-//				j += 1;
-//			}
-//		}
-
-//		newFields.forEach(newEmbed::addField);
-//
-//		System.out.println(newEmbed.getFields());
-
-
-//		event.getChannel().sendMessage(newEmbed.build()).submit();
 		event.getChannel().sendMessage(embed.build()).submit();
 	}
 }

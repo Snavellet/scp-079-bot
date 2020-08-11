@@ -60,13 +60,11 @@ public class ModerationUtils {
 								.ifPresent(member -> member
 										.ban(0, reason.get())
 										.submit()
-										.thenAccept(aVoid -> {
-											userUtils.reply("I successfully " +
-													"banned" +
-													" ***" + member
-													.getUser()
-													.getAsTag() + "*** for `" + reason.get() + "`");
-										})));
+										.thenAccept(aVoid -> userUtils.reply("I successfully " +
+												"banned" +
+												" ***" + member
+												.getUser()
+												.getAsTag() + "*** for `" + reason.get() + "`"))));
 			}
 		}
 	}
